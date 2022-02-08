@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'FontinSmallCaps';
+    src: url('https://web.poecdn.com/font/fontin-smallcaps-webfont.eot');
+    src: local("?"), url('https://web.poecdn.com/font/fontin-smallcaps-webfont.woff') format("woff"), url('https://web.poecdn.com/font/fontin-smallcaps-webfont.ttf') format("truetype"), url('https://web.poecdn.com/font/fontin-smallcaps-webfont.svg#webfontSCusr8QL') format("svg");
+    font-weight: normal;
+    font-style: normal
+}
+body
+{
+	margin: 0;
+	background-color: #191e19;
+	/* background-image: url(https://i.imgur.com/8eRgoes.jpg); */
+}
+
+div#main
+{
+	font-size: 1em;
+	position: absolute;
+	width: 98vw;
+}
+.rowContainer
+{
+	display: flex;
+	flex-wrap: wrap;
+}
+#boxRows
+{
+	position: absolute;
+}
+#header
+{
+	position: absolute;
+	height: 0px;
+}
+#svgContainer
+{
+	position: absolute;
+}
+hr
+{
+	/* border: #8888ff 1px solid; */
+	border: #8888ff;
+}
+.modbox
+{
+	position: relative;
+	text-align: center;
+	width: 12em;
+	height: 7em;
+	margin: 5px;
+	padding: 3px;
+	background-color: black;
+	font-family: FontinSmallCaps, Arial;
+}
+line, .modbox
+{
+	transition: all 200ms ease;
+}
+.modTitle
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #ffffff;
+	height: 3em;
+	/* width: 6em; */
+}
+.modTitle img
+{
+	max-width: 1.5em;
+	max-height: 1.5em;
+}
+.rewardSpan
+{
+	display: flex;
+	flex-wrap: wrap;
+}
+.modText, .bonusText
+{
+	color: #8888ff;
+	font-size: 0.8em;
+	line-height: 1px;
+}
