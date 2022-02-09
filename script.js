@@ -147,7 +147,10 @@ function highlight(box)
 		box = box.parentElement;
 	}
 	let id = box.id;
-	// console.log(id);
+
+	//highlight selected box
+	box.style.border = "1px solid rgba(255,255,255,1)";
+
 	//mute all arrows
 	let arrows = document.getElementsByTagName("line");
 	for(let a = 0; a < arrows.length; a++)
@@ -203,6 +206,7 @@ function boxLeave()
 		for(let a = 0; a < boxes.length; a++)
 		{
 			boxes[a].style.opacity = 1;
+			boxes[a].style.border = "1px solid rgba(255,255,255,0)";
 		}
 		for(let a = 0; a < arrows.length; a++)
 		{
