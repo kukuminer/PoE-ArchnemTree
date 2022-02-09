@@ -1,4 +1,4 @@
-var boxFocused = false;
+var boxFocused = undefined;
 var colourArray = ['#ffffff', '#8888ff', '#88ff88', '#ff8888', 'ffff88'];
 
 function setup()
@@ -9,11 +9,11 @@ function setup()
 	let rowNum = 0;
 	while(Object.keys(available).length < Object.keys(data).length)
 	{
-		document.getElementById("main").appendChild(document.createElement("hr"))
+		document.getElementById("boxRows").appendChild(document.createElement("hr"))
 		let rowContainer = document.createElement("div");
 		rowContainer.setAttribute("id", "row" + rowNum + "container");
 		rowContainer.setAttribute("class", "rowContainer");
-		document.getElementById("main").appendChild(rowContainer);
+		document.getElementById("boxRows").appendChild(rowContainer);
 
 		for(let [key, value] of Object.entries(data))
 		{
@@ -37,12 +37,14 @@ function setup()
 				//Form imgs
 				let img = document.createElement("img");
 				img.setAttribute("src", "./assets/img/" + value["imgName"] + ".png");
+				img.classList.add("modBoxContent");
 				//Form box title and attach image before text, reward image after text
 				let modName = document.createElement("span");
 				let text = document.createTextNode(key);
 				modName.appendChild(img);
 				modName.appendChild(text);
 				modName.classList.add("modTitle");
+				modName.classList.add("modBoxContent");
 				let rewardSpan = document.createElement("span");
 				rewardSpan.setAttribute("class", "rewardSpan");
 				for(reward in value["rewards"])
@@ -50,6 +52,7 @@ function setup()
 					let rwrdImg = document.createElement("img");
 					rwrdImg.setAttribute("src", "./assets/img/HeistReward" + value["rewards"][reward] + ".png");
 					rwrdImg.setAttribute("alt", value["rewards"][reward]);
+					rwrdImg.classList.add("modBoxContent");
 					rewardSpan.appendChild(rwrdImg);
 				}
 				modName.appendChild(rewardSpan);
@@ -60,6 +63,7 @@ function setup()
 				let modtext = document.createTextNode(value["mod"]);
 				// mod.appendChild(modtext);
 				mod.classList.add("modText");
+				mod.classList.add("modBoxContent");
 				box.appendChild(mod);
 
 				//Form bonus box and description
@@ -67,6 +71,7 @@ function setup()
 				let bonusText = document.createTextNode(value["bonus"] !== null ? value["bonus"] : "");
 				bonus.appendChild(bonusText);
 				bonus.classList.add("bonusText");
+				bonus.classList.add("modBoxContent")
 				box.appendChild(bonus);
 
 				document.getElementById("row" + rowNum + "container").appendChild(box);
@@ -147,7 +152,10 @@ function highlight(box)
 		box = box.parentElement;
 	}
 	let id = box.id;
-	// console.log(id);
+
+	//highlight selected box
+	box.style.border = "1px solid rgba(255,255,255,1)";
+
 	//mute all arrows
 	let arrows = document.getElementsByTagName("line");
 	for(let a = 0; a < arrows.length; a++)
@@ -203,6 +211,7 @@ function boxLeave()
 		for(let a = 0; a < boxes.length; a++)
 		{
 			boxes[a].style.opacity = 1;
+			boxes[a].style.border = "1px solid rgba(255,255,255,0)";
 		}
 		for(let a = 0; a < arrows.length; a++)
 		{
@@ -215,7 +224,8 @@ function boxLeave()
 function bgClick(event)
 {
 	let source = event.target;
-	if(source.id === "svgContainer")
+	console.log(source);
+	if(!source.classList.contains("modBoxContent") && !source.classList.contains("modbox"))
 	{
 		boxFocused = undefined;
 		boxLeave();
