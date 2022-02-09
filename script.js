@@ -152,7 +152,6 @@ function boxHover(event)
 	if(!boxFocused)
 	{
 		highlight(event.target);
-		boxFocused = event.target;
 	}
 }
 function highlight(box)
