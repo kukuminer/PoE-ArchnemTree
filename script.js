@@ -1,51 +1,10 @@
 var boxFocused = false;
+var colourArray = ['#ffffff', '#8888ff', '#88ff88', '#ff8888', 'ffff88'];
 
 function setup()
 {
 	//to form rows, store which ones are available. Each row adds anything craftable from previous rows.
 	let available = {};
-	//make first row
-	// let index = 0;
-	// const row1container = document.createElement("div");
-	// row1container.setAttribute("id", "row0container");
-	// row1container.setAttribute("class", "rowContainer");
-	// document.getElementById("main").appendChild(row1container);
-	// for(let [key, value] of Object.entries(data))
-	// {
-	// 	if(!value["recipe"].length)
-	// 	{
-	// 		//add to list of usable mods
-	// 		available[key] = 0;
-	//
-	// 		//form html content
-	// 		//Form box first
-	// 		let box = document.createElement("div");
-	// 		box.setAttribute("id", key);
-	// 		box.setAttribute("class", "row0 modbox");
-	// 		box.setAttribute("style", "opacity: 1");
-	// 		//Form img
-	// 		let img = document.createElement("img");
-	// 		img.setAttribute("src", "./assets/img/" + value["imgName"] + ".png");
-	// 		//Form box title and attach image before text
-	// 		let modName = document.createElement("span");
-	// 		let text = document.createTextNode(key);
-	// 		modName.appendChild(img);
-	// 		modName.appendChild(text);
-	// 		modName.classList.add("modTitle");
-	// 		box.appendChild(modName);
-	// 		//Form box mod description
-	// 		// box.appendChild(document.createElement("br"));
-	// 		let mod = document.createElement("span");
-	// 		let modtext = document.createTextNode(value["mod"]);
-	// 		mod.appendChild(modtext);
-	// 		mod.classList.add("modText");
-	// 		box.appendChild(mod);
-	//
-	// 		document.getElementById("row0container").appendChild(box);
-	//
-	// 		index++;
-	// 	}
-	// }
 
 	let rowNum = 0;
 	while(Object.keys(available).length < Object.keys(data).length)
@@ -188,7 +147,10 @@ function highlight(box)
 		box = box.parentElement;
 	}
 	let id = box.id;
-	// console.log(id);
+
+	//highlight selected box
+	box.style.border = "1px solid rgba(255,255,255,1)";
+
 	//mute all arrows
 	let arrows = document.getElementsByTagName("line");
 	for(let a = 0; a < arrows.length; a++)
@@ -208,15 +170,16 @@ function highlight(box)
 			if(document.getElementsByClassName(keyr + ' ' + idr))
 			{
 				document.getElementsByClassName(keyr + ' ' + idr)[0].style.opacity = 1;
+				document.getElementsByClassName(keyr + ' ' + idr)[0].style.strokeWidth = 2;
 			}
 			document.getElementById(key).style.opacity = 1;
 		}
 	}
 	//highlight boxes that we use, and that our parents use
-	highlightRecurse(id);
+	highlightRecurse(id, 1);
 
 }
-function highlightRecurse(id)
+function highlightRecurse(id, height)
 {
 	document.getElementById(id).style.opacity = 1;
 	for(let a = 0; a < data[id]["recipe"].length; a++)
@@ -228,8 +191,10 @@ function highlightRecurse(id)
 		if(document.getElementsByClassName(idr + ' ' + parentr))
 		{
 			document.getElementsByClassName(idr + ' ' + parentr)[0].style.opacity = 1;
+			document.getElementsByClassName(idr + ' ' + parentr)[0].style.stroke = colourArray[height];
+			document.getElementsByClassName(idr + ' ' + parentr)[0].style.strokeWidth = 2;
 		}
-		highlightRecurse(data[id]["recipe"][a]);
+		highlightRecurse(data[id]["recipe"][a], height + 1);
 	}
 }
 function boxLeave()
@@ -241,10 +206,13 @@ function boxLeave()
 		for(let a = 0; a < boxes.length; a++)
 		{
 			boxes[a].style.opacity = 1;
+			boxes[a].style.border = "1px solid rgba(255,255,255,0)";
 		}
 		for(let a = 0; a < arrows.length; a++)
 		{
 			arrows[a].style.opacity = 1;
+			arrows[a].style.stroke = "#ffffff";
+			arrows[a].style.strokeWidth = 1;
 		}
 	}
 }
@@ -259,6 +227,8 @@ function bgClick(event)
 }
 function boxClick(event)
 {
+	boxFocused = undefined;
+	boxLeave();
 	let box = event.target;
 	while(!box.classList.contains("modbox"))
 	{
