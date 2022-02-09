@@ -16,6 +16,7 @@ div#main
 {
 	font-size: 1em;
 	position: absolute;
+	top: 6em;
 	width: 98vw;
 }
 .rowContainer

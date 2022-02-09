@@ -118,9 +118,9 @@ function drawArrows()
 				let selfRect = self.getBoundingClientRect();
 				let x1 = parseFloat(parentRect.x + parentRect.width/2);
 				//Offset by scroll amount for smaller windows
-				let y1 = parseFloat(parentRect.bottom + document.documentElement.scrollTop);
+				let y1 = parseFloat(parentRect.bottom + document.documentElement.scrollTop - parent.parentElement.parentElement.offsetTop);
 				let x2 = parseFloat(selfRect.x + selfRect.width/2);
-				let y2 = parseFloat(selfRect.top + document.documentElement.scrollTop);
+				let y2 = parseFloat(selfRect.top + document.documentElement.scrollTop - self.parentElement.parentElement.offsetTop);
 				clone.setAttribute("x1", x1 + "px");
 				clone.setAttribute("y1", y1 + "px");
 				clone.setAttribute("x2", x2 + "px");
