@@ -162,6 +162,29 @@ function highlight(box)
 	{
 		//hide all boxes first
 		document.getElementById(key).style.opacity = 0.2;
+	// 	//only highlight boxes that use us...
+	// 	if(value["recipe"].includes(id))
+	// 	{
+	// 		let keyr = key.replace(' ', '_');
+	// 		let idr = id.replace(' ', '_');
+	// 		if(document.getElementsByClassName(keyr + ' ' + idr))
+	// 		{
+	// 			document.getElementsByClassName(keyr + ' ' + idr)[0].style.opacity = 1;
+	// 			document.getElementsByClassName(keyr + ' ' + idr)[0].style.strokeWidth = 2;
+	// 		}
+	// 		document.getElementById(key).style.opacity = 1;
+	// 	}
+	}
+	//highlight boxes that we use, and that our parents use
+	highlightRecurseDown(id, 1);
+	highlightRecurse(id, 1);
+
+}
+function highlightRecurseDown(id, depth)
+{
+	document.getElementById(id).style.opacity = 1;
+	for(let [key, value] of Object.entries(data))
+	{
 		//only highlight boxes that use us...
 		if(value["recipe"].includes(id))
 		{
@@ -170,21 +193,24 @@ function highlight(box)
 			if(document.getElementsByClassName(keyr + ' ' + idr))
 			{
 				document.getElementsByClassName(keyr + ' ' + idr)[0].style.opacity = 1;
+				document.getElementsByClassName(keyr + ' ' + idr)[0].style.stroke = colourArray[colourArray.length - depth];
 				document.getElementsByClassName(keyr + ' ' + idr)[0].style.strokeWidth = 2;
 			}
 			document.getElementById(key).style.opacity = 1;
+			if(document.getElementById("doDeepUsage").checked)
+			{
+				highlightRecurseDown(key, depth+1);
+			}
 		}
-	}
-	//highlight boxes that we use, and that our parents use
-	highlightRecurse(id, 1);
 
+	}
 }
 function highlightRecurse(id, height)
 {
 	document.getElementById(id).style.opacity = 1;
 	for(let a = 0; a < data[id]["recipe"].length; a++)
 	{
-		//replaces are for arrow classes, since classes cannot contain ' ', the contain '_' instead
+		//replaces are for arrow classes, since classes cannot contain ' ', they contain '_' instead
 		let idr = id.replace(' ', '_');
 		let parentr = data[id]["recipe"][a].replace(' ', '_');
 		//check if arrow with both classes exists (connecting the 2)
