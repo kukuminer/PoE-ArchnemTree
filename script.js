@@ -91,9 +91,16 @@ function setup()
 		}
 	}
 	document.getElementsByTagName("body")[0].addEventListener("click", bgClick);
+	document.getElementById("doDeepUsage").addEventListener("click", () => forceBoxRehighlight(boxFocused))
 	drawArrows();
 }
 
+function forceBoxRehighlight(boxFocused)
+{
+	if (boxFocused) {
+		highlight(boxFocused);
+	}
+}
 function drawArrows()
 {
 	//form arrow
@@ -267,7 +274,7 @@ function boxClick(event)
 	{
 		box = box.parentElement;
 	}
-	boxFocused = box.id;
+	boxFocused = box;
 	highlight(box);
 }
 
