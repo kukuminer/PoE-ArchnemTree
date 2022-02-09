@@ -3,6 +3,13 @@ var colourArray = ['#ffffff', '#8888ff', '#88ff88', '#ff8888', 'ffff88'];
 
 function setup()
 {
+	//Check if any checkboxes were checked in previous loads of thsi page
+	let check = localStorage.getItem("doDeepUsage");
+	if(check == "true")
+	{
+		document.getElementById("doDeepUsage").checked = true;
+	}
+
 	//to form rows, store which ones are available. Each row adds anything craftable from previous rows.
 	let available = {};
 
@@ -264,5 +271,9 @@ function boxClick(event)
 	highlight(box);
 }
 
+window.onbeforeunload = function()
+{
+	localStorage.setItem("doDeepUsage", document.getElementById("doDeepUsage").checked);
+}
 document.addEventListener('DOMContentLoaded', setup);
 window.addEventListener('resize', drawArrows);
