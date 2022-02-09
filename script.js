@@ -97,12 +97,12 @@ function setup()
 	drawArrows();
 }
 
-function forceBoxRehighlight(currentBox) {
+function forceBoxRehighlight(currentBox)
+{
 	if (boxFocused && currentBox) {
-		highlight(currentBox)
+		highlight(currentBox);
 	}
 }
-
 function drawArrows()
 {
 	//form arrow
