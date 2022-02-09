@@ -1,4 +1,4 @@
-var boxFocused = false;
+var boxFocused = undefined;
 var colourArray = ['#ffffff', '#8888ff', '#88ff88', '#ff8888', 'ffff88'];
 
 function setup()
