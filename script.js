@@ -1,5 +1,4 @@
 var boxFocused = undefined;
-let currentBox = null;
 var colourArray = ['#ffffff', '#8888ff', '#88ff88', '#ff8888', 'ffff88'];
 
 
@@ -93,14 +92,14 @@ function setup()
 		}
 	}
 	document.getElementsByTagName("body")[0].addEventListener("click", bgClick);
-	document.getElementById("doDeepUsage").addEventListener("click", () => forceBoxRehighlight(currentBox))
+	document.getElementById("doDeepUsage").addEventListener("click", () => forceBoxRehighlight(boxFocused))
 	drawArrows();
 }
 
-function forceBoxRehighlight(currentBox)
+function forceBoxRehighlight(boxFocused)
 {
-	if (boxFocused && currentBox) {
-		highlight(currentBox);
+	if (boxFocused) {
+		highlight(boxFocused);
 	}
 }
 function drawArrows()
@@ -154,7 +153,7 @@ function boxHover(event)
 	if(!boxFocused)
 	{
 		highlight(event.target);
-		currentBox = event.target;
+		boxFocused = event.target;
 	}
 }
 function highlight(box)
@@ -277,7 +276,7 @@ function boxClick(event)
 	{
 		box = box.parentElement;
 	}
-	boxFocused = box.id;
+	boxFocused = box;
 	highlight(box);
 }
 
