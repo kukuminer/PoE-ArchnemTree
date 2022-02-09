@@ -9,6 +9,7 @@ body
 {
 	margin: 0;
 	background-color: #191e19;
+	font-family: FontinSmallCaps, Arial;
 	/* background-image: url(https://i.imgur.com/8eRgoes.jpg); */
 }
 
@@ -30,7 +31,10 @@ div#main
 }
 #header
 {
+	padding: 0.5em;
 	position: absolute;
+	color: #ffffff;
+	font-size: 2em;
 	height: 0px;
 }
 #svgContainer
@@ -51,7 +55,6 @@ hr
 	margin: 5px;
 	padding: 3px;
 	background-color: black;
-	font-family: FontinSmallCaps, Arial;
 }
 line, .modbox
 {
