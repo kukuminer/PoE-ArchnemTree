@@ -167,6 +167,7 @@ function highlight(box)
 			if(document.getElementsByClassName(keyr + ' ' + idr))
 			{
 				document.getElementsByClassName(keyr + ' ' + idr)[0].style.opacity = 1;
+				document.getElementsByClassName(keyr + ' ' + idr)[0].style.strokeWidth = 2;
 			}
 			document.getElementById(key).style.opacity = 1;
 		}
