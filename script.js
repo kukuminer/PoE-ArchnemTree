@@ -1,8 +1,15 @@
-var boxFocused = false;
+var boxFocused = undefined;
 var colourArray = ['#ffffff', '#8888ff', '#88ff88', '#ff8888', 'ffff88'];
 
 function setup()
 {
+	//Check if any checkboxes were checked in previous loads of thsi page
+	let check = localStorage.getItem("doDeepUsage");
+	if(check == "true")
+	{
+		document.getElementById("doDeepUsage").checked = true;
+	}
+
 	//to form rows, store which ones are available. Each row adds anything craftable from previous rows.
 	let available = {};
 
@@ -118,9 +125,9 @@ function drawArrows()
 				let selfRect = self.getBoundingClientRect();
 				let x1 = parseFloat(parentRect.x + parentRect.width/2);
 				//Offset by scroll amount for smaller windows
-				let y1 = parseFloat(parentRect.bottom + document.documentElement.scrollTop);
+				let y1 = parseFloat(parentRect.bottom + document.documentElement.scrollTop - parent.parentElement.parentElement.offsetTop);
 				let x2 = parseFloat(selfRect.x + selfRect.width/2);
-				let y2 = parseFloat(selfRect.top + document.documentElement.scrollTop);
+				let y2 = parseFloat(selfRect.top + document.documentElement.scrollTop - self.parentElement.parentElement.offsetTop);
 				clone.setAttribute("x1", x1 + "px");
 				clone.setAttribute("y1", y1 + "px");
 				clone.setAttribute("x2", x2 + "px");
@@ -162,6 +169,29 @@ function highlight(box)
 	{
 		//hide all boxes first
 		document.getElementById(key).style.opacity = 0.2;
+	// 	//only highlight boxes that use us...
+	// 	if(value["recipe"].includes(id))
+	// 	{
+	// 		let keyr = key.replace(' ', '_');
+	// 		let idr = id.replace(' ', '_');
+	// 		if(document.getElementsByClassName(keyr + ' ' + idr))
+	// 		{
+	// 			document.getElementsByClassName(keyr + ' ' + idr)[0].style.opacity = 1;
+	// 			document.getElementsByClassName(keyr + ' ' + idr)[0].style.strokeWidth = 2;
+	// 		}
+	// 		document.getElementById(key).style.opacity = 1;
+	// 	}
+	}
+	//highlight boxes that we use, and that our parents use
+	highlightRecurseDown(id, 1);
+	highlightRecurse(id, 1);
+
+}
+function highlightRecurseDown(id, depth)
+{
+	document.getElementById(id).style.opacity = 1;
+	for(let [key, value] of Object.entries(data))
+	{
 		//only highlight boxes that use us...
 		if(value["recipe"].includes(id))
 		{
@@ -170,21 +200,24 @@ function highlight(box)
 			if(document.getElementsByClassName(keyr + ' ' + idr))
 			{
 				document.getElementsByClassName(keyr + ' ' + idr)[0].style.opacity = 1;
+				document.getElementsByClassName(keyr + ' ' + idr)[0].style.stroke = colourArray[colourArray.length - depth];
 				document.getElementsByClassName(keyr + ' ' + idr)[0].style.strokeWidth = 2;
 			}
 			document.getElementById(key).style.opacity = 1;
+			if(document.getElementById("doDeepUsage").checked)
+			{
+				highlightRecurseDown(key, depth+1);
+			}
 		}
-	}
-	//highlight boxes that we use, and that our parents use
-	highlightRecurse(id, 1);
 
+	}
 }
 function highlightRecurse(id, height)
 {
 	document.getElementById(id).style.opacity = 1;
 	for(let a = 0; a < data[id]["recipe"].length; a++)
 	{
-		//replaces are for arrow classes, since classes cannot contain ' ', the contain '_' instead
+		//replaces are for arrow classes, since classes cannot contain ' ', they contain '_' instead
 		let idr = id.replace(' ', '_');
 		let parentr = data[id]["recipe"][a].replace(' ', '_');
 		//check if arrow with both classes exists (connecting the 2)
@@ -238,5 +271,9 @@ function boxClick(event)
 	highlight(box);
 }
 
+window.onbeforeunload = function()
+{
+	localStorage.setItem("doDeepUsage", document.getElementById("doDeepUsage").checked);
+}
 document.addEventListener('DOMContentLoaded', setup);
 window.addEventListener('resize', drawArrows);

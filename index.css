@@ -9,6 +9,7 @@ body
 {
 	margin: 0;
 	background-color: #191e19;
+	font-family: FontinSmallCaps, Arial;
 	/* background-image: url(https://i.imgur.com/8eRgoes.jpg); */
 }
 
@@ -16,6 +17,7 @@ div#main
 {
 	font-size: 1em;
 	position: absolute;
+	top: 40px;
 	width: 98vw;
 }
 .rowContainer
@@ -29,8 +31,13 @@ div#main
 }
 #header
 {
+	padding: 0.3em;
 	position: absolute;
-	height: 0px;
+	color: #ffffff;
+	background-color: #303030;
+	font-size: 1.5em;
+	height: 40px;
+	width: 98vw;
 }
 #svgContainer
 {
@@ -51,7 +58,6 @@ hr
 	margin: 5px;
 	padding: 3px;
 	background-color: black;
-	font-family: FontinSmallCaps, Arial;
 }
 line, .modbox
 {
